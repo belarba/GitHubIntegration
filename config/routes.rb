@@ -5,7 +5,11 @@ Rails.application.routes.draw do
 
   namespace 'api' do
   	namespace 'v1' do
-  		get '/repositories', to: 'repositories#index'
+      get '/find', to: 'repositories#search_repo'
+      get '/username', to: 'repositories#find_user'
+      
+      get '/repositories', to: 'repositories#index'
+      
   	end
   end
 end
