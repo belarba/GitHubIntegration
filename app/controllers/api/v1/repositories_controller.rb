@@ -84,7 +84,23 @@ module Api
 
 				response = RestClient.get base_url + query
 				repos = JSON.parse(response)
-				render json: repos
+				# render json: repos['items']
+				
+				saida_final = []
+				saida = {}
+
+				repos['items'].each do |item|
+					saida['nome_completo'] = item['full_name']
+					saida['descricao'] = item['description']
+					saida['qtd_estrela'] = item['stargazers_count']
+					saida['qtd_forks'] = item['forks']
+					saida['nome_autor'] = item['owner']['login']
+						# saida['aaa'] = item['full_name']
+					 	saida_final << saida
+					 	saida = {}
+				end
+				
+				render json: saida_final
 
 			end
 
