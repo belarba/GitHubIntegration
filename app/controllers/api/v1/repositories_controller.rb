@@ -34,7 +34,7 @@ module Api
 
 			def search_repo
 				base_url = 'https://api.github.com/search/repositories'
-				query = '/?='
+				query = '?q='
 				controle = 0
 
 				if(params[:free_text])
@@ -45,7 +45,7 @@ module Api
 				end
 
 				if(params[:username])
-					if(controle = 1)
+					if(controle == 1)
 						controle = 0
 						query += '+'
 					end
@@ -54,7 +54,7 @@ module Api
 				end
 
 				if(params[:language])
-					if(controle = 1)
+					if(controle == 1)
 						controle = 0
 						query += '+'
 					end
