@@ -61,7 +61,7 @@ module Api
 					query += 'language:'+params[:language]
 				end
 				
-				if(params[:sort_by_star] || params[:order_by_fork])
+				if(params[:sort_by_star] || params[:order_by_fork] || params[:order_by_date])
 					query += '&sort='
 				end
 
@@ -76,15 +76,25 @@ module Api
 						query += '+'
 					end
 					query += 'forks'
+					controle = ''
+				end
+
+				if(params[:sort_by_date])
+					if(controle = 1)
+						controle = 0
+						query += '+'
+					end
+					query += 'updated_at'
 				end
 
 				if(params[:order_by])
 					query += '&order='+params[:order_by]
 				end
 
+				query += '&per_page=50'
+
 				response = RestClient.get base_url + query
 				repos = JSON.parse(response)
-				# render json: repos['items']
 				
 				saida_final = []
 				saida = {}
@@ -95,9 +105,8 @@ module Api
 					saida['qtd_estrela'] = item['stargazers_count']
 					saida['qtd_forks'] = item['forks']
 					saida['nome_autor'] = item['owner']['login']
-						# saida['aaa'] = item['full_name']
-					 	saida_final << saida
-					 	saida = {}
+				 	saida_final << saida
+				 	saida = {}
 				end
 				
 				render json: saida_final
